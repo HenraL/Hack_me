@@ -1,0 +1,103 @@
+#!/bin/bash
+
+if [ $# -ne 0 ]
+then
+    echo "OC = red, OA = green, OE = yellow "
+    OC='\033[1;31m\033[1;40m'
+    OA='\033[1;32m\033[1;40m'
+    OE='\033[1;33m\033[1;40m'
+    load() {
+        useless=0
+        s="="
+        let i=0
+        while [ $i -le $max_percent ]
+        do        
+            echo -ne "${OE}${Load_type} [${s}] (${i}%)\r"
+            sleep 0.005s
+            let "i++"
+            case $i in
+                10 | 20 | 30 | 40 | 50 | 60 | 70 | 80 | 90 | 100 | 5 | 15 | 25 | 35 | 45 | 55 | 65 | 75 | 85 | 95)
+                    s+="="
+                    ;;
+                *)
+                    useless=0
+                    ;;
+            esac
+        done
+        echo -ne "${OA}${Load_type} [${s}] (${i}%)\n"
+    }
+    waiting() {
+        s="\\"
+        let o=0
+        while [ $o -le $waitTime ]
+        do
+            echo -ne "$Load_type\\ \r"
+            sleep 0.1s
+            echo -ne "$Load_type| \r"
+            sleep 0.1s
+            echo -ne "$Load_type/ \r"
+            sleep 0.1s
+            echo -ne "$Load_type- \r"
+            sleep 0.1s
+            let "o++"
+        done
+        if [ $called_from_func -eq 0 ]
+        then
+            echo -ne "$Load_type \n"
+        fi
+    }
+
+    max_percent=99
+    called_from_func=0
+    echo -ne "${OA}\n"
+    clear
+    Load_type="${OA}Initialising HackMe... "
+    waitTime=7
+    waiting
+    echo -ne "${OA}HackMe initialised.\n"
+    Load_type="${OC}Connecing to $1... "
+    waitTime=2
+    waiting
+    echo -ne "${OA}Connected to $1.\n"
+    Load_type="${OC}Hacking $1... "
+    waiting
+    Load_type="Gathering files : "
+    load
+    Load_type="${OA}Getting $1's  IP ..."
+    waiting
+    Load_type="Getting $1's e-mails...            "
+    load
+    Load_type="Getting $1's browser passwords...  "
+    load
+    Load_type="Getting $1's brower search data... "
+    load
+    sleep 0.5s
+    Load_type="${OC}Searching for $1's social media..."
+    waiting
+    Load_type="Facebook       :"
+    load
+    Load_type="Instagram      :"
+    load
+    Load_type="Youtube        :"
+    load
+    Load_type="TikTok         :"
+    load
+    Load_type="Buy Me A Cofee :"
+    load
+    echo "Social media gathered."
+    echo "$1 has been successefully hacked."
+    sleep 2s
+    echo -ne "\n\n\n\n"
+    echo "This is a prank program that has been written by Henry Letellier."
+    sleep 0.5s
+    echo "Find more of my projects on Gumroad: https://app.gumroad.com/hanra_latalliar"
+    sleep 0.5s
+    echo "Follow-me on: "
+    sleep 0.5s
+    echo "Facebook: https://www.facebook.com/HenrySoftwareHouse/"
+    sleep 0.5s
+    echo "Youtube:  https://www.youtube.com/channel/UCZ98e6vnXbY0psQvhh0JFpw"
+    sleep 0.5s
+else
+    echo "Please enter the name of the person to hack"
+fi
